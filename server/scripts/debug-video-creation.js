@@ -3,9 +3,19 @@
  * Debug script to diagnose issues with video creation
  */
 
-// Hardcode Supabase credentials for test
-const SUPABASE_URL = 'https://qcphzeimioklhgzcgdeu.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjcGh6ZWltaW9rbGhnemNnZGV1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjIyNjU4OSwiZXhwIjoyMDU3ODAyNTg5fQ.Tw6vMyE2SXh1SZ57zywoiwa7PK6gl0MOzAytYDEy9sU';
+// Load environment variables
+require('dotenv').config();
+
+// Get Supabase credentials from environment variables
+const SUPABASE_URL = process.env.PROJECT_URL;
+const SUPABASE_KEY = process.env.SUPABASE_API_KEY;
+
+// Verify that environment variables are properly loaded
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('Error: Missing Supabase credentials in environment variables.');
+  console.error('Make sure PROJECT_URL and SUPABASE_API_KEY are set in the .env file.');
+  process.exit(1);
+}
 
 console.log('Using Supabase project URL:', SUPABASE_URL);
 

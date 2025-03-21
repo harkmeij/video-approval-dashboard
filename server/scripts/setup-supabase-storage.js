@@ -5,11 +5,19 @@ console.log('Environment variables:');
 console.log('PROJECT_URL:', process.env.PROJECT_URL);
 console.log('SUPABASE_API_KEY:', process.env.SUPABASE_API_KEY ? 'Defined (not showing for security)' : 'NOT DEFINED');
 
-// Initialize Supabase client directly
-const supabase = createClient(
-  'https://qcphzeimioklhgzcgdeu.supabase.co',  // Using hardcoded URL from .env file
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjcGh6ZWltaW9rbGhnemNnZGV1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjIyNjU4OSwiZXhwIjoyMDU3ODAyNTg5fQ.Tw6vMyE2SXh1SZ57zywoiwa7PK6gl0MOzAytYDEy9sU'  // Using hardcoded API key from .env file
-);
+// Get Supabase credentials from environment variables
+const SUPABASE_URL = process.env.PROJECT_URL;
+const SUPABASE_KEY = process.env.SUPABASE_API_KEY;
+
+// Verify that environment variables are properly loaded
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('Error: Missing Supabase credentials in environment variables.');
+  console.error('Make sure PROJECT_URL and SUPABASE_API_KEY are set in the .env file.');
+  process.exit(1);
+}
+
+// Initialize Supabase client
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /**
  * This script sets up the Supabase storage bucket and policies for video hosting
